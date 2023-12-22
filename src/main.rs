@@ -53,29 +53,28 @@ fn sing(rust_version :bool) {
         let cur_day = days[day];
         let cur_gift = gifts[day];
         let refrain = format!("On the {cur_day} day of Christmas my true love gave to me {cur_gift}");
-        if day > 0{
-            print!("{refrain}");
-            if day > 1 {
-                println!{","};
-            }
-            println!("");
+        let refrain = if day == 0 {
+            format!("{refrain}.")
+        } else if day == 1{
+            format!("{refrain}")
+        } else {
+            format!("{refrain}, ")
+        };
+        
+            println!("{refrain}");
+            if day > 0{
             for inner_day in (1..=day).rev(){
                 let inner_gift = gifts[inner_day-1];
                 if inner_day > 1 {
                     println!("{inner_gift},");
                 } else{
                     println!("and {inner_gift}.");
-                }
-                
-                
+                }                            
             }
-        } else{
-            println!("{refrain}.");
         }
-        
     }
 }
 
 fn main() {
-    sing(false)
+    sing(true)
 }
