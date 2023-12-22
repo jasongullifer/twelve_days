@@ -62,7 +62,7 @@ fn sing(rust_version :bool) {
     let gifts: [&'static str; 12] = get_gifts(rust_version);
     let ndays = days.len();
 
-    println!("{title}");
+    println!("\n{title}");
     println!("===============================================");
     for day in 0..ndays{
         println!("");
@@ -99,7 +99,7 @@ fn pause() {
     let mut stdout = io::stdout();
 
     // We want the cursor to stay at the end of the line, so we print without a newline and flush manually.
-    write!(stdout, "Press Enter key to exit...").unwrap();
+    write!(stdout, "Press Enter key to close the command line...").unwrap();
     stdout.flush().unwrap();
 
     // Read a single byte and discard
@@ -107,8 +107,35 @@ fn pause() {
 }
 
 fn main() {
-    // run the program! sing the regular version of the song, followed by the rustic version, the pause before quittting
-    sing(false);
-    sing(true);
-    pause();
+    // run the program! sing the regular version of the song, followed by the rustic version, the pause before quitting
+    loop{
+        print!("Which version of The Twelve Days of Christmas do you want?\n(1) Standard Version; (2) Rustic Version; Other Key to Quit: ");
+        io::stdout().flush().unwrap();
+        let mut choice = String::new();
+
+        io::stdin()
+        .read_line(&mut choice)
+        .expect("Failed to read line!");
+
+        let choice: u8 = match choice.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {                
+                0          
+            }
+        };
+
+        if choice == 1 {
+            sing(false);
+            
+        } else if choice == 2 {
+            sing(true);
+            
+        } else{
+            println!("Quitting program.");
+            pause();
+            break;
+        }
+        
+    }
+
 }
